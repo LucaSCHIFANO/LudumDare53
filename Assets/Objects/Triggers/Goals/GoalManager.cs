@@ -11,6 +11,7 @@ public class GoalManager : MonoBehaviour
 
     private List<Goal> goalList = new List<Goal>();
     private Goal lastGoal = null;
+    private Arrow arrow;
 
 
     private void Awake()
@@ -43,6 +44,8 @@ public class GoalManager : MonoBehaviour
                 }
             }
         }
+
+        ChangeArrowTarget();
     }
 
     public bool IsGoalCompleted()
@@ -60,5 +63,19 @@ public class GoalManager : MonoBehaviour
         pmRef.Instance.PizzaDelivered();
         SetNextGoal();
         tsRef.Instance.Scored();
+    }
+
+    public void SetArrow(Arrow _arrow)
+    {
+        arrow = _arrow;
+        ChangeArrowTarget();
+    }
+
+    private void ChangeArrowTarget()
+    {
+        if(arrow != null)
+        {
+            arrow.SetTarget(lastGoal.transform);
+        }
     }
 }
