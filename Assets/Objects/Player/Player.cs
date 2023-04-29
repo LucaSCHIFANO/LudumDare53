@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite forward;
     [SerializeField] private Sprite turn;
     private SpriteRenderer sr;
+    private Animator anim;
 
     [SerializeField] private ParticleSystem driftLeft;
     [SerializeField] private ParticleSystem driftRight;
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();   
         sr = transform.GetChild(0).GetComponent<SpriteRenderer>();  
+        anim = sr.gameObject.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -128,8 +130,10 @@ public class Player : MonoBehaviour
         rb.velocity = (transform.forward).normalized * currentSpeed;
 
 
-        if(Mathf.Abs(currentSpeed) > 2)
+        if (Mathf.Abs(currentSpeed) > 2)
         {
+            anim.Play("VisualMove");
+
             if (moveInputH <= -0.2f)
             {
                 transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
@@ -146,6 +150,7 @@ public class Player : MonoBehaviour
                 turnState = Brake.Zero;
             }
         }
+        else anim.Play("Idle");
 
         switch (turnState)
         {
@@ -172,13 +177,15 @@ public class Player : MonoBehaviour
     {
         currentTimeBeforeCheck -= Time.deltaTime;
 
-        if (currentSpeed < stepSpeed) 
+        if (currentSpeed < stepSpeed || brakeState == Brake.Zero) 
         { 
             driftRight.Stop();
             driftLeft.Stop();
         }
         else
         {
+
+
             switch (turnState)
             {
                 case Brake.Zero:

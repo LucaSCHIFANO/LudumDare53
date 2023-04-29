@@ -70,11 +70,11 @@ public class TimerScore : MonoBehaviour
 
         if(currentPizzaTimer <= 0)
         {
-            currentScore += (int)(currentPizzaTimer * 2);
-            currentTimer += (int)(currentPizzaTimer * 2);
+            currentScore += (int)(currentPizzaTimer);
+            currentTimer += (int)(currentPizzaTimer);
 
             gain1.sprite = bad;
-            gain2.text = $"{((int)(currentPizzaTimer * 2)).ToString()}";
+            gain2.text = $"{((int)(currentPizzaTimer)).ToString()}";
         }
         else
         {
@@ -94,7 +94,7 @@ public class TimerScore : MonoBehaviour
     {
         if (!freezeScore)
         {
-            if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer * 2);
+            if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer);
             freezeScore = true;
         }
 

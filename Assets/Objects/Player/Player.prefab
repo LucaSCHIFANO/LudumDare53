@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1975688578636208396}
   - component: {fileID: 1852256053568150695}
+  - component: {fileID: 7037834982320437668}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -115,6 +116,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7037834982320437668
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508437149193897325}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ad05289fd23ef104ca219497d5875f38, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3523952709987976059
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +412,7 @@ MonoBehaviour:
   bumpForce: 10
   gravity: 98
   angleToBounce: 45
+  bumpParticle: {fileID: 0}
   distToGround: 1
   timeBeforeCheckGood: 0.1
   timeBeforeCheckBad: 1
