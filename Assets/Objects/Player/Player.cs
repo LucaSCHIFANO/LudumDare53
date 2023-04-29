@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private Brake brakeState;
 
     [Header("Bump")]
+    [SerializeField] private float speedNeededToBump;
     [SerializeField] private float bumpForce;
     [SerializeField] private float gravity;
     bool isBumped;
@@ -175,7 +176,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag != "Wall" || currentSpeed <= stepSpeed ) return;
+        if (collision.transform.tag != "Wall" || currentSpeed <= speedNeededToBump) return;
 
         foreach (var item in collision.contacts)
         {
