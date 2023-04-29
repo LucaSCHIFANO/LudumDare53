@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     bool isBumped;
 
     [SerializeField] private float angleToBounce;
+    [SerializeField] private GameObject bumpParticle;
 
 
     [Header("GroundCheck")]
@@ -186,10 +187,10 @@ public class Player : MonoBehaviour
                     break;
                 case Brake.Left:
                     driftRight.Stop();
-                    if(!driftLeft.isEmitting)driftLeft.Play();
+                    if(!driftLeft.isEmitting && brakeState == Brake.Left)driftLeft.Play();
                     break;
                 case Brake.Right:
-                    if(!driftRight.isEmitting)driftRight.Play();
+                    if(!driftRight.isEmitting && brakeState == Brake.Right) driftRight.Play();
                     driftLeft.Stop();
                     break;
                 default:
@@ -200,7 +201,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Bump(Vector3 dir)
+    private void Bump(Vector3 dir, Vector3 position)
     {
         var angle = Vector3.Angle(transform.forward, dir);
 
@@ -208,10 +209,10 @@ public class Player : MonoBehaviour
         {
             currentSpeed = 0;
             currentTimeBeforeCheck = timeBeforeCheckBad;
+            Instantiate(bumpParticle, position, Quaternion.Euler(dir));
         }
         else currentTimeBeforeCheck = timeBeforeCheckGood;
 
-            
 
 
         isBumped = true;
@@ -272,7 +273,7 @@ public class Player : MonoBehaviour
 
         foreach (var item in collision.contacts)
         {
-            Bump(Vector3.Reflect(transform.forward, item.normal));
+            Bump(Vector3.Reflect(transform.forward, item.normal), item.point);
         }
 
 
