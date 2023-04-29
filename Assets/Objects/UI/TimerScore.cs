@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TimerScore : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class TimerScore : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject visualGain;
     [SerializeField] private Transform popUpPosition;
+    [SerializeField] private Sprite good;
+    [SerializeField] private Sprite bad;
 
 
     private void Awake()
@@ -60,24 +63,25 @@ public class TimerScore : MonoBehaviour
 
     public void Scored()
     {
-        TextMeshProUGUI gain = Instantiate(visualGain, popUpPosition.position, Quaternion.identity, canvas.transform).GetComponent<TextMeshProUGUI>();
-        
+        GameObject gain = Instantiate(visualGain, popUpPosition.position, Quaternion.identity, canvas.transform);
+        Image gain1 = gain.transform.GetChild(0).GetComponent<Image>();
+        TextMeshProUGUI gain2 = gain.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
         if(currentPizzaTimer <= 0)
         {
             currentScore += (int)(currentPizzaTimer * 2);
             currentTimer += (int)(currentPizzaTimer * 2);
 
-            gain.color = Color.red;
-            gain.text = $"{((int)(currentPizzaTimer * 2)).ToString()}";
+            gain1.sprite = bad;
+            gain2.text = $"{((int)(currentPizzaTimer * 2)).ToString()}";
         }
         else
         {
             currentScore += (int)currentPizzaTimer;
             currentTimer += (int)(currentPizzaTimer / 2);
             
-            gain.color = Color.green;
-            gain.text = $" + {((int)currentPizzaTimer).ToString()}";
+            gain1.sprite = good;
+            gain2.text = $" + {((int)currentPizzaTimer / 2).ToString()}";
         }
 
 

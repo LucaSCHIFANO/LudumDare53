@@ -46,6 +46,11 @@ public class Player : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
+
+    [Header("Visual")]
+    [SerializeField] private Sprite forward;
+    [SerializeField] private Sprite turn;
+    private SpriteRenderer sr;
     enum Brake
     {
         Zero,
@@ -56,12 +61,14 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();   
+        sr = transform.GetChild(0).GetComponent<SpriteRenderer>();  
     }
 
     private void FixedUpdate()
     {
         float leftBrake = 1;
         float rightBrake = 1;
+        int turnValue = 0;
 
         rb.AddRelativeForce(Vector3.down * gravity);
 
@@ -110,9 +117,39 @@ public class Player : MonoBehaviour
 
         if(Mathf.Abs(currentSpeed) > 2)
         {
-            if (moveInputH <= -0.2f) transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
-            else if (moveInputH >= 0.2f) transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
-            else transform.Rotate(new Vector3(0, 0, 0));
+            if (moveInputH <= -0.2f)
+            {
+                transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
+                turnValue = -1;
+            }
+            else if (moveInputH >= 0.2f)
+            {
+                transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
+                turnValue = 1;
+            }
+            else
+            {
+                transform.Rotate(new Vector3(0, 0, 0));
+                turnValue = 0;
+            }
+        }
+
+        switch (turnValue)
+        {
+            case -1:
+                sr.sprite = turn;
+                sr.flipX= false;
+                break;
+            case 0:
+                sr.sprite = forward;
+                sr.flipX= false;
+                break;
+            case 1:
+                sr.sprite = turn;
+                sr.flipX= true;
+                break;
+            default:
+                break;
         }
 
     }
