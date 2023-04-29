@@ -1005,6 +1005,42 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 3635222507565404771, guid: 911d072be37820649a210a907416d5db, type: 3}
   m_PrefabInstance: {fileID: 3635222508516015888}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1198998067
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198998068}
+  m_Layer: 5
+  m_Name: ScorePopUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1198998068
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198998067}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1876138233}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -52, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!1001 &1288649628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1723,6 +1759,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2133483625}
+  - {fileID: 1198998068}
   m_Father: {fileID: 62761586}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2123,6 +2160,9 @@ MonoBehaviour:
   timer: 50
   pizzaTimer: 20
   textScore: {fileID: 1850279687}
+  canvas: {fileID: 62761582}
+  visualGain: {fileID: 1989837561935506322, guid: f32fc9d678c54a342ae09451baffa9db, type: 3}
+  popUpPosition: {fileID: 1198998068}
 --- !u!1 &2133483624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2317,6 +2357,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
+      propertyPath: backSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
       propertyPath: bumpForce
       value: 10
       objectReference: {fileID: 0}
@@ -2334,11 +2378,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
       propertyPath: timeBeforeCheck
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
       propertyPath: speedNeededToBump
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
+      propertyPath: timeBeforeCheckBad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635222506773027469, guid: 911d072be37820649a210a907416d5db, type: 3}
+      propertyPath: timeBeforeCheckGood
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3635222506773027471, guid: 911d072be37820649a210a907416d5db, type: 3}
       propertyPath: m_RootOrder

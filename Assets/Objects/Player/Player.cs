@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
 
     [Header("GroundCheck")]
     [SerializeField] private float distToGround;
-    [SerializeField] private float timeBeforeCheck;
+    [SerializeField] private float timeBeforeCheckGood;
+    [SerializeField] private float timeBeforeCheckBad;
     private float currentTimeBeforeCheck;
 
     [SerializeField] private LayerMask ground;
@@ -127,12 +128,14 @@ public class Player : MonoBehaviour
         if (angle > angleToBounce)
         {
             currentSpeed = 0;
+            currentTimeBeforeCheck = timeBeforeCheckBad;
         }
+        else currentTimeBeforeCheck = timeBeforeCheckGood;
 
-            isBumped = true;
-            currentTimeBeforeCheck = timeBeforeCheck;
+            
 
 
+        isBumped = true;
 
 
         Vector3 newVect = dir.normalized + Vector3.up;
@@ -142,7 +145,7 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         isBumped = true;
-        currentTimeBeforeCheck = timeBeforeCheck;
+        currentTimeBeforeCheck = timeBeforeCheckGood;
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
@@ -185,7 +188,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag != "Wall" && currentSpeed < speedNeededToBump) return;
+        if (collision.transform.tag != "Wall" || currentSpeed < speedNeededToBump) return;
 
 
         foreach (var item in collision.contacts)
