@@ -27,6 +27,21 @@ public class Player : MonoBehaviour
     [SerializeField] private float brakeRotationMultiplicator;
     private Brake brakeState;
 
+    [Header("Bump")]
+    [SerializeField] private float bumpForce;
+    [SerializeField] private float gravity;
+    bool isBumped;
+
+    [Header("GroundCheck")]
+    [SerializeField] private float distToGround;
+    [SerializeField] private float timeBeforeCheck;
+    private float currentTimeBeforeCheck;
+
+    [SerializeField] private float angleToBounce;
+
+    [SerializeField] private LayerMask ground;
+
+
     enum Brake
     {
         Zero,
@@ -43,6 +58,16 @@ public class Player : MonoBehaviour
     {
         float leftBrake = 1;
         float rightBrake = 1;
+
+        rb.AddRelativeForce(Vector3.down * gravity);
+
+        if (isBumped)
+        {
+            if(IsGrounded() && currentTimeBeforeCheck <= 0 ) isBumped = false;
+            else return;
+        }
+
+
 
         if (isMovingForward)
         {
@@ -77,19 +102,43 @@ public class Player : MonoBehaviour
             if (moveInputH <= -0.2f) transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
             else if (moveInputH >= 0.2f) transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
             else transform.Rotate(new Vector3(0, 0, 0));
+
         }
         else
         {
             currentSpeed -= deceleration;
             currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
         }
+
         rb.velocity = (transform.forward).normalized * currentSpeed;
 
 
 
     }
 
+    private void Update()
+    {
+        currentTimeBeforeCheck -= Time.deltaTime;
+    }
+    private void Bump(Vector3 dir)
+    {
+        var angle = Vector3.Angle(transform.forward, dir);
+        Debug.Log(angle);
 
+        if (angle > angleToBounce)
+        {
+            currentSpeed = 0;
+        }
+
+            isBumped = true;
+            currentTimeBeforeCheck = timeBeforeCheck;
+
+
+
+
+        Vector3 newVect = dir.normalized + Vector3.up;
+        rb.AddForce(newVect * bumpForce, ForceMode.Impulse);
+    }
 
     // Input system --------------------------------------------------------------------------
     public void Movement(InputAction.CallbackContext context)
@@ -127,7 +176,20 @@ public class Player : MonoBehaviour
 
     // Collision --------------------------------------------------------------------------
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag != "Wall" || currentSpeed <= stepSpeed ) return;
 
+        foreach (var item in collision.contacts)
+        {
+            Bump(Vector3.Reflect(transform.forward, item.normal));
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, distToGround, ground);
+    }
 
 
 }
