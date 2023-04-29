@@ -7,6 +7,7 @@ public class GoalManager : MonoBehaviour
     [Header("Ref")]
     [SerializeField] private GoalManagerRef _ref;
     [SerializeField] private PizzaManagerRef pmRef;
+    [SerializeField] private TimerScoreRef tsRef;
 
     private List<Goal> goalList = new List<Goal>();
     private Goal lastGoal = null;
@@ -58,5 +59,6 @@ public class GoalManager : MonoBehaviour
     {
         pmRef.Instance.PizzaDelivered();
         SetNextGoal();
+        tsRef.Instance.Scored();
     }
 }

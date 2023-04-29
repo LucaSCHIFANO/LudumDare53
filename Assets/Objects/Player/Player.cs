@@ -33,16 +33,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float gravity;
     bool isBumped;
 
+    [SerializeField] private float angleToBounce;
+
+
     [Header("GroundCheck")]
     [SerializeField] private float distToGround;
     [SerializeField] private float timeBeforeCheck;
     private float currentTimeBeforeCheck;
 
-    [SerializeField] private float angleToBounce;
-
     [SerializeField] private LayerMask ground;
 
-
+    [Header("Jump")]
+    [SerializeField] private float jumpForce;
     enum Brake
     {
         Zero,
@@ -121,7 +123,6 @@ public class Player : MonoBehaviour
     private void Bump(Vector3 dir)
     {
         var angle = Vector3.Angle(transform.forward, dir);
-        Debug.Log(angle);
 
         if (angle > angleToBounce)
         {
@@ -136,6 +137,14 @@ public class Player : MonoBehaviour
 
         Vector3 newVect = dir.normalized + Vector3.up;
         rb.AddForce(newVect * bumpForce, ForceMode.Impulse);
+    }
+
+    private void Jump()
+    {
+        isBumped = true;
+        currentTimeBeforeCheck = timeBeforeCheck;
+
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     // Input system --------------------------------------------------------------------------
@@ -176,11 +185,22 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag != "Wall" || currentSpeed <= speedNeededToBump) return;
+        if (collision.transform.tag != "Wall" && currentSpeed < speedNeededToBump) return;
+
 
         foreach (var item in collision.contacts)
         {
             Bump(Vector3.Reflect(transform.forward, item.normal));
+        }
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Jumper")
+        {
+            Jump();
         }
     }
 

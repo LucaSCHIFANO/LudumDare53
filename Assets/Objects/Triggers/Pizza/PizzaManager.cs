@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PizzaManager : MonoBehaviour, ICallable
 {
+    [Header("Ref")]
     [SerializeField] private PizzaManagerRef _ref;
     [SerializeField] GameObject go;
     private bool isPizzaGet;
