@@ -88,20 +88,11 @@ public class Player : MonoBehaviour
                     break;
             }
 
-            if (moveInputH <= -0.2f) transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
-            else if (moveInputH >= 0.2f) transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
-            else transform.Rotate(new Vector3(0, 0, 0));
-
         }
         else if (isMovingBarward)
         {
             currentSpeed -= backSpeed;
             currentSpeed = Mathf.Clamp(currentSpeed, maxBackSpeed, maxSpeed);
-
-
-            if (moveInputH <= -0.2f) transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
-            else if (moveInputH >= 0.2f) transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
-            else transform.Rotate(new Vector3(0, 0, 0));
 
         }
         else
@@ -113,6 +104,12 @@ public class Player : MonoBehaviour
         rb.velocity = (transform.forward).normalized * currentSpeed;
 
 
+        if(Mathf.Abs(currentSpeed) > 2)
+        {
+            if (moveInputH <= -0.2f) transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
+            else if (moveInputH >= 0.2f) transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
+            else transform.Rotate(new Vector3(0, 0, 0));
+        }
 
     }
 

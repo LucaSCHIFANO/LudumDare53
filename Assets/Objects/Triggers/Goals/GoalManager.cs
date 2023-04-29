@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GoalManager : MonoBehaviour
 {
+    [Header("Ref")]
     [SerializeField] private GoalManagerRef _ref;
+    [SerializeField] private PizzaManagerRef pmRef;
+
     private List<Goal> goalList = new List<Goal>();
     private Goal lastGoal = null;
 
@@ -41,9 +44,19 @@ public class GoalManager : MonoBehaviour
         }
     }
 
+    public bool IsGoalCompleted()
+    {
+        if (pmRef.Instance.IsPizzaGet)
+        {
+            GoalCompleted();
+            return true;
+        }
+        else return false;
+    }
+
     public void GoalCompleted()
     {
+        pmRef.Instance.PizzaDelivered();
         SetNextGoal();
-        Debug.Log("okay");
     }
 }

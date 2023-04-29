@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalTrigger : MonoBehaviour
+public class AreaTrigger : MonoBehaviour
 {
-    
-
     private void OnTriggerEnter(Collider other)
     {
        if(other.tag == "Player")
         {
-            transform.parent.GetComponent<Goal>().Deactivate();
+            transform.parent.GetComponent<ICallable>().Interacted();
         }
     }
 }

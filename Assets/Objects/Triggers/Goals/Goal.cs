@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goal : MonoBehaviour
+public class Goal : MonoBehaviour, ICallable
 {
     [SerializeField] private GoalManagerRef gmref;
     [SerializeField] GameObject go;
@@ -11,11 +11,8 @@ public class Goal : MonoBehaviour
         go.SetActive(true);
     }
 
-    public void Deactivate() 
+    public void Interacted()
     {
-        gmref.Instance.GoalCompleted();
-        go.SetActive(false);
+        if(gmref.Instance.IsGoalCompleted()) go.SetActive(false);
     }
-
-    
 }
