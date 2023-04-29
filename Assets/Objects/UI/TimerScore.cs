@@ -20,6 +20,7 @@ public class TimerScore : MonoBehaviour
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI textScore;
     private float currentScore;
+    private bool freezeScore;
 
     [Header("Visual")]
     [SerializeField] private GameObject canvas;
@@ -91,6 +92,12 @@ public class TimerScore : MonoBehaviour
 
     void EndGame()
     {
+        if (!freezeScore)
+        {
+            if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer * 2);
+            freezeScore = true;
+        }
+
         Time.timeScale = 0;
     }
 }

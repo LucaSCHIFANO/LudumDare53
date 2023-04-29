@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float rotationValue;
     [SerializeField] private float brakeRotationMultiplicator;
     private Brake brakeState;
+    private Brake turnState;
 
     [Header("Bump")]
     [SerializeField] private float speedNeededToBump;
@@ -51,6 +53,12 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite forward;
     [SerializeField] private Sprite turn;
     private SpriteRenderer sr;
+
+    [SerializeField] private ParticleSystem driftLeft;
+    [SerializeField] private ParticleSystem driftRight;
+    
+    
+    
     enum Brake
     {
         Zero,
@@ -68,7 +76,7 @@ public class Player : MonoBehaviour
     {
         float leftBrake = 1;
         float rightBrake = 1;
-        int turnValue = 0;
+        
 
         rb.AddRelativeForce(Vector3.down * gravity);
 
@@ -86,17 +94,21 @@ public class Player : MonoBehaviour
             else currentSpeed += acceleration2;
             currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
 
-
-            switch (brakeState)
+            if (currentSpeed > stepSpeed)
             {
-                case Brake.Left:
-                    leftBrake = brakeRotationMultiplicator;
-                    break;
-                case Brake.Right:
-                    rightBrake = brakeRotationMultiplicator;
-                    break;
-                default:
-                    break;
+                switch (brakeState)
+                {
+                    case Brake.Left:
+                        leftBrake = brakeRotationMultiplicator;
+                        break;
+
+                    case Brake.Right:
+                        rightBrake = brakeRotationMultiplicator;
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
         }
@@ -120,31 +132,31 @@ public class Player : MonoBehaviour
             if (moveInputH <= -0.2f)
             {
                 transform.Rotate(new Vector3(0, -rotationValue * leftBrake, 0));
-                turnValue = -1;
+                turnState = Brake.Left;
             }
             else if (moveInputH >= 0.2f)
             {
                 transform.Rotate(new Vector3(0, rotationValue * rightBrake, 0));
-                turnValue = 1;
+                turnState = Brake.Right;
             }
             else
             {
                 transform.Rotate(new Vector3(0, 0, 0));
-                turnValue = 0;
+                turnState = Brake.Zero;
             }
         }
 
-        switch (turnValue)
+        switch (turnState)
         {
-            case -1:
+            case Brake.Left:
                 sr.sprite = turn;
                 sr.flipX= false;
                 break;
-            case 0:
+            case Brake.Zero:
                 sr.sprite = forward;
                 sr.flipX= false;
                 break;
-            case 1:
+            case Brake.Right:
                 sr.sprite = turn;
                 sr.flipX= true;
                 break;
@@ -152,12 +164,42 @@ public class Player : MonoBehaviour
                 break;
         }
 
+        
     }
 
     private void Update()
     {
         currentTimeBeforeCheck -= Time.deltaTime;
+
+        if (currentSpeed < stepSpeed) 
+        { 
+            driftRight.Stop();
+            driftLeft.Stop();
+        }
+        else
+        {
+            switch (turnState)
+            {
+                case Brake.Zero:
+                    driftRight.Stop();
+                    driftLeft.Stop();
+                    break;
+                case Brake.Left:
+                    driftRight.Stop();
+                    if(!driftLeft.isEmitting)driftLeft.Play();
+                    break;
+                case Brake.Right:
+                    if(!driftRight.isEmitting)driftRight.Play();
+                    driftLeft.Stop();
+                    break;
+                default:
+                    break;
+            }
+ 
+        }
     }
+
+
     private void Bump(Vector3 dir)
     {
         var angle = Vector3.Angle(transform.forward, dir);

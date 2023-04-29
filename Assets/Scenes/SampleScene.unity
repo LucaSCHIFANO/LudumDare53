@@ -3580,6 +3580,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2464128262803741085, guid: 911d072be37820649a210a907416d5db, type: 3}
+      propertyPath: CollisionModule.m_Planes.Array.data[0]
+      value: 
+      objectReference: {fileID: 128838093}
     - target: {fileID: 3635222506773027467, guid: 911d072be37820649a210a907416d5db, type: 3}
       propertyPath: m_Name
       value: Player
