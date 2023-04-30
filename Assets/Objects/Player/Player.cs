@@ -58,9 +58,13 @@ public class Player : MonoBehaviour
 
     [SerializeField] private ParticleSystem driftLeft;
     [SerializeField] private ParticleSystem driftRight;
-    
-    
-    
+
+    [Header("Pause")]
+    [SerializeField] private PauseRef pauseRef;
+
+
+
+
     enum Brake
     {
         Zero,
@@ -268,6 +272,11 @@ public class Player : MonoBehaviour
         if (context.canceled && brakeState == Brake.Right) brakeState = Brake.Zero;
     }
 
+    public void CallPause(InputAction.CallbackContext context)
+    {
+        if (context.started) pauseRef.Instance.ChangePause();  
+    }
+
 
 
 
@@ -298,6 +307,8 @@ public class Player : MonoBehaviour
     {
         return Physics.Raycast(transform.position, Vector3.down, distToGround, ground);
     }
+
+
 
 
 }
