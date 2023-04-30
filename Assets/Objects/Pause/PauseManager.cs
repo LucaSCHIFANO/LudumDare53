@@ -12,6 +12,7 @@ public class PauseManager : MonoBehaviour
     private bool isPaused;
 
     [Header("Pause Menu")]
+    [SerializeField] Button selected;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private Image imageSound;
     [SerializeField] private List<Sprite> listSound = new List<Sprite>();
@@ -58,6 +59,7 @@ public class PauseManager : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             pauseMenu.SetActive(true);
+            selected.Select();
         }
         else
         {

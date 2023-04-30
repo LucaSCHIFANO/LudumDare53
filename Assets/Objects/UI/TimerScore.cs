@@ -31,6 +31,7 @@ public class TimerScore : MonoBehaviour
     [SerializeField] private Sprite bad;
 
     [Header("End")]
+    [SerializeField] Button selected;
     [SerializeField] GameObject endScreen;
     [SerializeField] GameObject gameScreen;
     [SerializeField] private TextMeshProUGUI textScoreFin;
@@ -101,8 +102,8 @@ public class TimerScore : MonoBehaviour
 
     void EndGame()
     {
-        pauseRef.Instance.CanPause = false;
         Time.timeScale = 0;
+        pauseRef.Instance.CanPause = false;
 
         if (!freezeScore)
         {
@@ -113,6 +114,8 @@ public class TimerScore : MonoBehaviour
 
         endScreen.SetActive(true);
         gameScreen.SetActive(false);
+
+        selected.Select();
 
         textScoreFin.text = $"Score : {((int)currentScore).ToString("D4")}";
 
