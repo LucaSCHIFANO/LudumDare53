@@ -8,6 +8,7 @@ public class TimerScore : MonoBehaviour
 {
     [Header("Ref")]
     [SerializeField] private TimerScoreRef _ref;
+    [SerializeField] private PauseRef pauseRef;
 
     [Header("Timers")]
     [SerializeField] private TextMeshProUGUI textTimer;
@@ -29,6 +30,11 @@ public class TimerScore : MonoBehaviour
     [SerializeField] private Sprite good;
     [SerializeField] private Sprite bad;
 
+    [Header("End")]
+    [SerializeField] GameObject endScreen;
+    [SerializeField] GameObject gameScreen;
+    [SerializeField] private TextMeshProUGUI textScoreFin;
+    [SerializeField] private TextMeshProUGUI textBestScore;
 
     private void Awake()
     {
@@ -36,6 +42,9 @@ public class TimerScore : MonoBehaviour
 
         currentTimer = timer;
         currentPizzaTimer= pizzaTimer;
+
+        gameScreen.SetActive(true);
+        endScreen.SetActive(false);
     }
     private void Update()
     {
@@ -92,12 +101,24 @@ public class TimerScore : MonoBehaviour
 
     void EndGame()
     {
+        pauseRef.Instance.CanPause = false;
+        Time.timeScale = 0;
+
         if (!freezeScore)
         {
             if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer);
             freezeScore = true;
         }
 
-        Time.timeScale = 0;
+
+        endScreen.SetActive(true);
+        gameScreen.SetActive(false);
+
+        textScoreFin.text = $"Score : {((int)currentScore).ToString("D4")}";
+
+        if ((int)currentScore > PlayerPrefs.GetInt("Best Score")) PlayerPrefs.SetInt("Best Score", (int)currentScore);
+
+
+        textBestScore.text = $"Best : {PlayerPrefs.GetInt("Best Score").ToString("D4")}";
     }
 }

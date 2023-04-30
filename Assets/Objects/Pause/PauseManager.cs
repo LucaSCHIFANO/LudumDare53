@@ -18,13 +18,17 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private AudioManager source;
     private bool isSound;
 
-
+    private bool canPause;
+    public bool CanPause { get => canPause; set => canPause = value; }
 
     private void Awake()
     {
         _ref.Instance = this;
+        canPause = true;
 
+        Time.timeScale = 1;
         pauseMenu.SetActive(false);
+
 
 
         switch (PlayerPrefs.GetInt("Sound"))
@@ -43,6 +47,7 @@ public class PauseManager : MonoBehaviour
 
     public void ChangePause()
     {
+        if (!canPause) return;
         isPaused = !isPaused;
         CallPause();
     }
@@ -63,8 +68,12 @@ public class PauseManager : MonoBehaviour
 
     public void MainMenu()
     {
-            Time.timeScale = 1.0f;
         SceneManager.LoadScene(0, LoadSceneMode.Single);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
     public void ChangeSound()
