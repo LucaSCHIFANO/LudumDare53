@@ -18,7 +18,7 @@ public class GoalManager : MonoBehaviour
     {
         _ref.Instance = this;
 
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++) // get every child (yellow areas) and store them
         {
             goalList.Add(transform.GetChild(i).GetComponent<Goal>());
         }
@@ -30,7 +30,7 @@ public class GoalManager : MonoBehaviour
     {
         bool isOkay = false;
 
-        while (!isOkay)
+        while (!isOkay) // take a yellow area and active it except if it is the same as the last one
         {
             int rnd = Random.Range(0, goalList.Count);
             
@@ -48,7 +48,7 @@ public class GoalManager : MonoBehaviour
         ChangeArrowTarget();
     }
 
-    public bool IsGoalCompleted()
+    public bool IsGoalCompleted() // check if the player has a pizza
     {
         if (pmRef.Instance.IsPizzaGet)
         {
@@ -58,7 +58,7 @@ public class GoalManager : MonoBehaviour
         else return false;
     }
 
-    public void GoalCompleted()
+    public void GoalCompleted() // the player has a pizza :D
     {
         pmRef.Instance.PizzaDelivered();
         SetNextGoal();
@@ -71,7 +71,7 @@ public class GoalManager : MonoBehaviour
         ChangeArrowTarget();
     }
 
-    private void ChangeArrowTarget()
+    private void ChangeArrowTarget() // change the target of the arrow (the direction it looking at)
     {
         if(arrow != null)
         {

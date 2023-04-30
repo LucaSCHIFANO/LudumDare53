@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour
         button.Select();
         ReturnToMain();
 
-        switch (PlayerPrefs.GetInt("Sound"))
+        switch (PlayerPrefs.GetInt("Sound")) // get if the sound was muted or not
         {
             case 0:
                 isSound= true;
@@ -44,12 +44,12 @@ public class MainMenu : MonoBehaviour
 
 
     }
-    public void Play()
+    public void Play() // go to the main scene
     {
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
-    public void HowToPlay()
+    public void HowToPlay() // show the "how to play" screen
     {
         htp.SetActive(true);
         main.SetActive(false);
@@ -58,14 +58,14 @@ public class MainMenu : MonoBehaviour
         ShowImage();
     }
 
-    public void ReturnToMain()
+    public void ReturnToMain() // return to the main menu (not how to play)
     {
         htp.SetActive(false);
         main.SetActive(true);
         button.Select();
     }
 
-    public void Next()
+    public void Next() 
     {
         id++;
         if(id>=list.Count) id= 0;
@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour
         ShowImage();
     }
 
-    public void ShowImage()
+    public void ShowImage() // actualise the tuto image
     {
         image.sprite = list[id];
     }
@@ -97,7 +97,7 @@ public class MainMenu : MonoBehaviour
         ChangeSoundVisual();
     }
 
-    void ChangeSoundVisual()
+    void ChangeSoundVisual() // change the logo to show if the sound is muted or not
     {
         if (isSound)
         {

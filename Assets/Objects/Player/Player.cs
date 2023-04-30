@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour // big one ^_^
 {
     private float moveInputH;
     private bool isMovingForward;
@@ -63,8 +63,6 @@ public class Player : MonoBehaviour
     [SerializeField] private PauseRef pauseRef;
 
 
-
-
     enum Brake
     {
         Zero,
@@ -87,7 +85,7 @@ public class Player : MonoBehaviour
 
         rb.AddRelativeForce(Vector3.down * gravity);
 
-        if (isBumped)
+        if (isBumped) // if the player is bumped and do not touch the ground, he cannot move > < 
         {
             if(IsGrounded() && currentTimeBeforeCheck <= 0 ) isBumped = false;
             else return;
@@ -131,7 +129,7 @@ public class Player : MonoBehaviour
             currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
         }
 
-        rb.velocity = (transform.forward).normalized * currentSpeed;
+        rb.velocity = (transform.forward).normalized * currentSpeed; // I change the speed above but I apply it now
 
 
         if (Mathf.Abs(currentSpeed) > 2)
@@ -156,7 +154,7 @@ public class Player : MonoBehaviour
         }
         else anim.Play("Idle");
 
-        switch (turnState)
+        switch (turnState) // check before if the player turn and change the sprite below
         {
             case Brake.Left:
                 sr.sprite = turn;
@@ -181,29 +179,31 @@ public class Player : MonoBehaviour
     {
         currentTimeBeforeCheck -= Time.deltaTime;
 
-        if (currentSpeed < stepSpeed || brakeState == Brake.Zero) 
+        if (currentSpeed < stepSpeed || brakeState == Brake.Zero) // check if the player drift or not to activate / deactivate particles
         { 
             driftRight.Stop();
             driftLeft.Stop();
         }
-        else
+        else 
         {
-
 
             switch (turnState)
             {
-                case Brake.Zero:
+                case Brake.Zero: // he do not drift > <
                     driftRight.Stop();
                     driftLeft.Stop();
                     break;
-                case Brake.Left:
+
+                case Brake.Left: // he drift :D
                     driftRight.Stop();
                     if(!driftLeft.isEmitting && brakeState == Brake.Left)driftLeft.Play();
                     break;
-                case Brake.Right:
-                    if(!driftRight.isEmitting && brakeState == Brake.Right) driftRight.Play();
+
+                case Brake.Right: // he drift too :D
+                    if (!driftRight.isEmitting && brakeState == Brake.Right) driftRight.Play();
                     driftLeft.Stop();
                     break;
+
                 default:
                     break;
             }
@@ -212,28 +212,26 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Bump(Vector3 dir, Vector3 position)
+    private void Bump(Vector3 dir, Vector3 position) // I need a bump direction and a position to spawn particle :D
     {
         var angle = Vector3.Angle(transform.forward, dir);
 
-        if (angle > angleToBounce)
+        if (angle > angleToBounce) // before reseting the speed of the player, I check if the angle is smol. If its not, then speed is reset
         {
             currentSpeed = 0;
             currentTimeBeforeCheck = timeBeforeCheckBad;
-            Instantiate(bumpParticle, position, Quaternion.Euler(dir));
+            Instantiate(bumpParticle, position, Quaternion.Euler(dir)); //bump particle
         }
         else currentTimeBeforeCheck = timeBeforeCheckGood;
-
-
 
         isBumped = true;
 
 
-        Vector3 newVect = dir.normalized + Vector3.up;
+        Vector3 newVect = dir.normalized + Vector3.up; // I add certical force to the bump
         rb.AddForce(newVect * bumpForce, ForceMode.Impulse);
     }
 
-    private void Jump()
+    private void Jump() // the player was able to take jumppad (but wasnt fully implemented)
     {
         isBumped = true;
         currentTimeBeforeCheck = timeBeforeCheckGood;
@@ -287,7 +285,7 @@ public class Player : MonoBehaviour
         if (collision.transform.tag != "Wall" || currentSpeed < speedNeededToBump) return;
 
 
-        foreach (var item in collision.contacts)
+        foreach (var item in collision.contacts) // if the player collide with a Wall, a check the angle Player-Wall and i send it to "BumpCheck"
         {
             Bump(Vector3.Reflect(transform.forward, item.normal), item.point);
         }
@@ -295,7 +293,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // there is no jumppad the the final version
     {
         if (other.transform.tag == "Jumper")
         {
@@ -303,7 +301,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    private bool IsGrounded() // Check if the player is on the ground, simple right ?
     {
         return Physics.Raycast(transform.position, Vector3.down, distToGround, ground);
     }

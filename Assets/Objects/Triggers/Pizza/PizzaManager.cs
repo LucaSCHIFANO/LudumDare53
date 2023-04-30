@@ -26,25 +26,25 @@ public class PizzaManager : MonoBehaviour, ICallable
     {
         if (!isPizzaGet)
         {
-            logo2.color = new Color(1,1,1, Mathf.PingPong(Time.time * 2, 2));
+            logo2.color = new Color(1,1,1, Mathf.PingPong(Time.time * 2, 2)); // make the "Go Get Pizza" image blink
         }
     }
 
-    public void Interacted()
+    public void Interacted() // when the player enter the red area
     {
         isPizzaGet= true;
         go.SetActive(false);
         ChangeVisual();
     }
 
-    public void PizzaDelivered()
+    public void PizzaDelivered() // when the player enter a yellow area
     {
         isPizzaGet= false;
         go.SetActive(true);
         ChangeVisual();
     }
 
-    private void ChangeVisual()
+    private void ChangeVisual() // change visuals of the pizza logo 
     {
         if (isPizzaGet)
         {

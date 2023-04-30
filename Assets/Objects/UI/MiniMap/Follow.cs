@@ -14,6 +14,6 @@ public class Follow : MonoBehaviour
 
     void Update()
     {
-        transform.position = position.transform.position;
+        transform.position = position.transform.position; // make an object follow his target (follow = has the same position)
     }
 }

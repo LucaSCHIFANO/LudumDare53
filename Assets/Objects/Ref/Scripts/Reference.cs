@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Reference<T> : ScriptableObject
+public class Reference<T> : ScriptableObject // this is how a learn to create "Singleton", every "ref" is then stored in a scriptable object 
 {
     T instance;
 

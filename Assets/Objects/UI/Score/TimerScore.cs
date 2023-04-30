@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class TimerScore : MonoBehaviour
+public class TimerScore : MonoBehaviour // this one is used for the score / timer of course BUT also for the end screen
 {
     [Header("Ref")]
     [SerializeField] private TimerScoreRef _ref;
@@ -47,7 +47,7 @@ public class TimerScore : MonoBehaviour
         gameScreen.SetActive(true);
         endScreen.SetActive(false);
     }
-    private void Update()
+    private void Update() // update time and score
     {
         currentTimer -= Time.deltaTime;
         currentPizzaTimer -= Time.deltaTime;
@@ -56,7 +56,7 @@ public class TimerScore : MonoBehaviour
         textPizzaTimer.text = ((int)currentPizzaTimer).ToString("D3");
         textScore.text = $"Score : {((int)currentScore).ToString("D4")}";
 
-        switch (currentPizzaTimer)
+        switch (currentPizzaTimer) // change the color of the pizza timer 
         {
             case < 5:
                 textPizzaTimer.color = Color.red;
@@ -69,19 +69,19 @@ public class TimerScore : MonoBehaviour
                 break;
         }
 
-        if (currentTimer <= 0) EndGame();
+        if (currentTimer <= 0) EndGame(); // if no time, game over
     }
 
-    public void Scored()
+    public void Scored() // when the player deliver a pizza
     {
         GameObject gain = Instantiate(visualGain, popUpPosition.position, Quaternion.identity, canvas.transform);
         Image gain1 = gain.transform.GetChild(0).GetComponent<Image>();
         TextMeshProUGUI gain2 = gain.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
-        if(currentPizzaTimer <= 0)
+        if(currentPizzaTimer <= 0) // if the player is late, he loses time and score
         {
-            currentScore += (int)(currentPizzaTimer);
-            currentTimer += (int)(currentPizzaTimer);
+            currentScore += (int)(currentPizzaTimer); // he loses because currenPizzaTimer is negative 
+            currentTimer += (int)(currentPizzaTimer); // he loses because currenPizzaTimer is negative 
 
             gain1.sprite = bad;
             gain2.text = $"{((int)(currentPizzaTimer)).ToString()}";
@@ -89,7 +89,7 @@ public class TimerScore : MonoBehaviour
         else
         {
             currentScore += (int)currentPizzaTimer;
-            currentTimer += (int)(currentPizzaTimer / 2);
+            currentTimer += (int)(currentPizzaTimer / 2); // 2 could have been a field, I call this "Laziness" (but its rare I promise)
             
             gain1.sprite = good;
             gain2.text = $" + {((int)currentPizzaTimer / 2).ToString()}";
@@ -105,9 +105,9 @@ public class TimerScore : MonoBehaviour
         Time.timeScale = 0;
         pauseRef.Instance.CanPause = false;
 
-        if (!freezeScore)
+        if (!freezeScore) 
         {
-            if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer);
+            if (currentPizzaTimer < 0) currentScore += (int)(currentPizzaTimer); // calculate the score if its negative
             freezeScore = true;
         }
 

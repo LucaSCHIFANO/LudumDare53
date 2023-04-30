@@ -8,12 +8,12 @@ public class Arrow : MonoBehaviour
     [SerializeField] private GoalManagerRef gmRef;
     private Transform target;
 
-    private void Awake()
+    private void Awake() // this is because the arrow is stocked with the player prefab
     {
         transform.parent = null;
     }
 
-    private void Start()
+    private void Start() // set this arrow as the main (and only) arrow
     {
         gmRef.Instance.SetArrow(this);
     }
@@ -25,6 +25,6 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
-        if(target != null) transform.LookAt(target);
+        if(target != null) transform.LookAt(target); // look at my target !
     }
 }

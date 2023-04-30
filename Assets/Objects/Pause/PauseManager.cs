@@ -31,8 +31,7 @@ public class PauseManager : MonoBehaviour
         pauseMenu.SetActive(false);
 
 
-
-        switch (PlayerPrefs.GetInt("Sound"))
+        switch (PlayerPrefs.GetInt("Sound")) // get if the sound was muted or not
         {
             case 0:
                 isSound = true;
@@ -46,7 +45,7 @@ public class PauseManager : MonoBehaviour
         ChangeSoundVisual();
     }
 
-    public void ChangePause()
+    public void ChangePause() // change the state of the pause menu. Is the pause menu active or not ?
     {
         if (!canPause) return;
         isPaused = !isPaused;
@@ -78,17 +77,17 @@ public class PauseManager : MonoBehaviour
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
-    public void ChangeSound()
+    public void ChangeSound() // change the state of the sound and save it !
     {
         isSound = !isSound;
         if (isSound) PlayerPrefs.SetInt("Sound", 0);
         else PlayerPrefs.SetInt("Sound", 1);
-        source.ChangeSound();
+        source.ChangeSound(); // mute or unmuted the sound 
 
         ChangeSoundVisual();
     }
 
-    void ChangeSoundVisual()
+    void ChangeSoundVisual() // change the logo to show if the sound is muted or not
     {
         if (isSound) imageSound.sprite = listSound[0];
         else imageSound.sprite = listSound[1];
