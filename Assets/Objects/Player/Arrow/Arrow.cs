@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [Header("Position")]
-    [SerializeField] private GameObject position;
-
     [Header("Target")]
     [SerializeField] private GoalManagerRef gmRef;
     private Transform target;
+
+    private void Awake()
+    {
+        transform.parent = null;
+    }
 
     private void Start()
     {
@@ -23,7 +25,6 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
-        transform.position = position.transform.position;
         if(target != null) transform.LookAt(target);
     }
 }
