@@ -383,7 +383,19 @@ MonoBehaviour:
     m_ActionId: 356ac7c0-6e33-4bcb-87f1-239320918d8d
     m_ActionName: Player/GoBack[/Keyboard/leftShift,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3635222506773027469}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: CallPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ea176372-1b60-4409-8af4-15f0603e5162
     m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
@@ -403,15 +415,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5c6ed51ccada64da5b29cc6bafb61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepSpeed: 30
-  maxSpeed: 60
+  stepSpeed: 45
+  maxSpeed: 100
   acceleration: 0.3
-  acceleration2: 0.05
+  acceleration2: 0.15
   deceleration: 0.3
   backSpeed: 1
   maxBackSpeed: -7
   rotationValue: 1
-  brakeRotationMultiplicator: 1.5
+  brakeRotationMultiplicator: 1.75
   speedNeededToBump: 20
   bumpForce: 10
   gravity: 98
@@ -428,7 +440,7 @@ MonoBehaviour:
   turn: {fileID: 1269654906, guid: 187c76db986b4f741987b5c0f711897a, type: 3}
   driftLeft: {fileID: 982807172165700967}
   driftRight: {fileID: 7131665306455016516}
-  pauseRef: {fileID: 0}
+  pauseRef: {fileID: 11400000, guid: ec5d466f92aa7ca4a992483af5bf59d0, type: 2}
 --- !u!114 &3635222506773027468
 MonoBehaviour:
   m_ObjectHideFlags: 0
