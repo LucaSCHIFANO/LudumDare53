@@ -12,12 +12,14 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject main;
     [SerializeField] private GameObject htp;
 
+    [SerializeField] private Image image;
     [SerializeField] private List<Sprite> list = new List<Sprite>();
     private int id;
 
     private void Awake()
     {
         button.Select();
+        ReturnToMain();
     }
     public void Play()
     {
@@ -29,6 +31,8 @@ public class MainMenu : MonoBehaviour
         htp.SetActive(true);
         main.SetActive(false);
         button2.Select();
+        id = 0;
+        ShowImage();
     }
 
     public void ReturnToMain()
@@ -42,11 +46,18 @@ public class MainMenu : MonoBehaviour
     {
         id++;
         if(id>=list.Count) id= 0;
+        ShowImage();
     }
     public void Previous()
     {
         id--;
         if(id < 0) id= list.Count-1;
+        ShowImage();
+    }
+
+    public void ShowImage()
+    {
+        image.sprite = list[id];
     }
 
     public void Quit()
